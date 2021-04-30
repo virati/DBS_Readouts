@@ -13,6 +13,16 @@ import networkx as nx
 
 from sklearn.linear_model import ElasticNet
 
+class bbehave:
+    def __init__(self,N=10):
+        self.N = N
+    
+    def setup_network(self):
+        self.G = nx.Graph()
+        
+    def behavior(self):
+        pass
+    
 class readout:
     def __init__(self,H,gamma):
         self.H = H
@@ -54,14 +64,16 @@ class readout:
         plt.scatter(self.y,self.beta)
 
 N = 500
+ch = 5
 gamma = np.random.normal(0,1.0,size=(N,1)) * np.random.choice([0,1,2],p=[450/500,45/500,5/500],size=(N,1))
 
-baseH = np.zeros((N,5))
-#H_full_cover= np.copy(baseH)
-#H_full_cover[gamma!=0] = 1
+baseH = np.zeros((N,ch))
+H_full_cover= np.copy(baseH)
+for cc in range(ch):
+    H_full_cover[(gamma!=0).squeeze(),cc] = 1
 H_perfect = np.copy(gamma)
 
-primary = readout(H_perfect,gamma)
+primary = readout(H_full_cover,gamma)
 primary.sim(T=100)
 primary.scatter_pva()
 #%%
