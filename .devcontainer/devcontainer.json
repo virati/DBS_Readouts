@@ -39,7 +39,12 @@
 				"ms-python.python",
 				"ms-python.vscode-pylance",
 				"eamodio.gitlens",
-				"fabiospampinato.vscode-diff"
+				"fabiospampinato.vscode-diff",
+				"oijaz.unicode-latex",
+				"quarto.quarto",
+				"James-Yu.latex-workshop",
+				"ms-toolsai.jupyter-renderers",
+				"mathematic.vscode-latex"
 			]
 		}
 	},
