@@ -28,4 +28,4 @@ class RO_SYS(basic_system):
         super().__init__(**kwargs)
 
     def coverage(self) -> float:
-        return np.dot(self.gamma.T, self.H) / (norm(self.gamma) * norm(self.H))
+        return np.dot(self.gamma.T, self.H) / (nnp.sum(self.gamma))
