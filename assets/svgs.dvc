@@ -1,0 +1,5 @@
+outs:
+- md5: 285a177025022cbcabbd4db4bac1aad5.dir
+  size: 119287
+  nfiles: 2
+  path: svgs
