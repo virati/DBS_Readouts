@@ -2,7 +2,7 @@ absl-py==1.2.0
 asttokens==2.0.8
 backcall==0.2.0
 cycler==0.11.0
--e git+https://github.com/virati/DBS_Readouts.git@0860986277ff96b8aa09e5d6b10e188238138588#egg=dbread
+-e git+https://github.com/virati/DBS_Readouts.git@e7adb42686a2cabb932857bd3182250a53a57e20#egg=dbread
 debugpy==1.6.3
 decorator==5.1.1
 entrypoints==0.4
@@ -38,6 +38,7 @@ pure-eval==0.2.2
 Pygments==2.13.0
 pyparsing==3.0.9
 python-dateutil==2.8.2
+python-sensors==0.3.4
 pytz==2022.2.1
 pyzmq==23.2.1
 scikit-learn==1.1.2
