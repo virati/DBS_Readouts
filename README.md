@@ -6,15 +6,19 @@ A set of tools for theoretical analysis and design of DBS readouts.
 
 ## Limitations
 
+### PvA vs AvP
+* Compare
+* Intro/Def **Coverage**
+
 ### Fixed $\Gamma$ and $H$
 
 * Uniform $\Gamma$
 * Power-Law $\Gamma$
 
+Calculate reasonable bounds on performance
 
 ### Designing $H$
 * SSPOC
-
 
 ## Classifiers and IRR
 
@@ -22,4 +26,4 @@ A set of tools for theoretical analysis and design of DBS readouts.
 * Middle Layer Disagreements can map to High IRR in DM
 
 ## Next-Steps
-* Takens
+* Takens for supra-theoretical performance
