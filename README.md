@@ -4,6 +4,9 @@ A set of tools for theoretical analysis and design of DBS readouts.
 
 ## Re-Referencing
 
+* $\partial$LFP
+* Laplacians
+
 ## Limitations
 
 ### PvA vs AvP
