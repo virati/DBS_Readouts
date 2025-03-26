@@ -22,9 +22,12 @@ class rosys(base_system):
         else:
             return x_states
 
-    def set_H(self, H_function: Callable, H_coeffs: nnp.ndarray) -> Self:
-        self._H_function = H_function
-        self._H_coeffs = H_coeffs
+    def set_H(self, H_function: Callable = None, H_coeffs: nnp.ndarray = None, H_clip: int = 0) -> Self:
+        if H_function is not None:
+            self._H_function = H_function
+        if H_coeffs is not None:
+            self._H_coeffs = H_coeffs
+        self._H_clip = H_clip
 
         return self
 
