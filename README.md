@@ -4,7 +4,7 @@ A set of tools for theoretical analysis and design of DBS readouts.
 
 ## Basic Model
 - [ ] System and RO System
-- [ ] Assessment from Accuracy of $\Theta \y \approx \beta$ and Alignment of $\Theta$ to $\Gamma$.
+- [ ] Assessment from Accuracy of $\Theta \vec{y} \approx \beta$ and Alignment of $\Theta$ to $\Gamma$.
 ## Re-Referencing
 
 - [ ] $\partial$ LFP
