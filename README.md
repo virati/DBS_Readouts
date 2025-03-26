@@ -1,10 +1,11 @@
-# Framework for DBS Readouts Project
+# Framework for Assessing Adaptive Readouts
 
-A set of tools for theoretical analysis and design of DBS readouts.
+A set of tools for theoretical analysis and design of DBS/neurostim readouts.
 
 ## Basic Model
 - [ ] System and RO System
 - [ ] Assessment from Accuracy of $\Theta \vec{y} \approx \beta$ and Alignment of $\Theta$ to $\Gamma$.
+
 ## Re-Referencing
 
 - [ ] $\partial$ LFP
