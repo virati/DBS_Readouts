@@ -13,7 +13,7 @@ def zero(x: Any) -> Any:
     return 0 * x
 
 
-def stables(x: Any, c=0,) -> Any:
+def stable(x: Any, c=0,) -> Any:
     """
     Stable dynamics in each dimensions at \vec{c} Γ
     """
