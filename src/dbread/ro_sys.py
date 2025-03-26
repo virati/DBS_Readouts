@@ -1,47 +1,63 @@
-import jax.numpy as np
-from jax.numpy.linalg import norm
 import numpy as nnp
 from dbread.utils.functions import statics
+import matplotlib.pyplot as plt
+import networkx as nx
 
 
-class basic_system:
+class base_system:
     def __init__(
         self,
-        B: int = 1,
-        M: int = 1,
-        regions=10,
-        dimensions=1,
+        num_nodes: int = 1,
+        num_probes: int = 1,
+        num_behaviors: int = 1,
     ):
-        self.gamma = np.ones((regions, B))
-        self.H = np.ones((regions, M))
-        self.x = np.zeros((regions, dimensions))
-        self.f = statics
+        self.num_nodes = num_nodes
+        self.num_probes = num_probes
+        self.num_behaviors = num_behaviors
 
-        self.B = B
-        self.M = M
-        self.regions = regions
-        self.dimensions = dimensions
+        self._H_coeffs = nnp.zeros((num_nodes, num_probes))
+        self._Γ_coeffs = nnp.zeros((num_nodes, num_behaviors))
+
+        self._x_graph = nx.gnp_random_graph(num_nodes, 0.5)
+
+    def plot_coverage(self):
+        plt.figure()
+        plt.imshow([self._H_coeffs, self._Γ_coeffs],
+                   cmap="hot", interpolation="None")
+        plt.show()
+
+    def plot_x_space(self):
+        plt.figure()
+        nx.draw(self._x_graph, with_labels=True)
+        plt.title('Ground Truth Connectivity in x-layer')
+
+    def get_x_timeseries(self, T: int = 1000):
+        covariance_matrix = nx.laplacian_matrix(self._x_graph)
+
+        x_timeseries = nnp.random.multivariate_normal(
+            nnp.zeros(self.num_nodes), covariance_matrix.todense(), T)
+        return x_timeseries
 
 
-class RO_SYS(basic_system):
+class RO_SYS(base_system):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def coverage(self) -> float:
-        return np.dot(self.gamma.T, self.H) / (np.sum(self.gamma))
+        return nnp.dot(self.gamma.T, self.H) / (nnp.sum(self.gamma))
 
-    def gen_synth_states(self, T: int = 10_000) -> np.ndarray:
+    def gen_synth_states(self, T: int = 10_000) -> nnp.ndarray:
         self.X_states = nnp.random.multivariate_normal(
-            0 * np.zeros(self.regions), nnp.eye(self.regions), size=(T,)
+            0 * nnp.zeros(self.regions), nnp.eye(self.regions), size=(T,)
         )
 
         return self
 
     def measure(self):
-        return nnp.dot(basic_system.H.T, self.X_states.T).squeeze()
+        return nnp.dot(base_system.H.T, self.X_states.T).squeeze()
 
     def behave(self):
-        return nnp.dot(basic_system.gamma.T, self.X_states.T).squeeze()
+        return nnp.dot(base_system.gamma.T, self.X_states.T).squeeze()
 
     def prediction_stats(self, plot=False, X=None, Y=None):
         if plot:
