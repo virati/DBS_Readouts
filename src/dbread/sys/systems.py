@@ -1,8 +1,9 @@
 import numpy as nnp
 import matplotlib.pyplot as plt
 import networkx as nx
-from abs import abstractmethod, ABC
-from typing import Any, Self
+from abc import abstractmethod, ABC
+from typing import Any
+from typing_extensions import Self
 
 
 class base_system:
@@ -20,27 +21,41 @@ class base_system:
         self._Γ_coeffs = nnp.zeros((num_nodes, num_behaviors))
 
         self._x_graph = nx.gnp_random_graph(num_nodes, 0.5)
+        self.x_states = None
 
-    @abstractmethod
     def H(self, input):
         return self._H_function(input, self._H_coeffs)
 
-    @abstractmethod
     def Γ(self, input):
         return self._Γ_function(input, self._Γ_coeffs)
 
-    def plot_coverage(self):
-        plt.figure()
-        plt.imshow([self._H_coeffs, self._Γ_coeffs],
-                   cmap="hot", interpolation="None")
-        plt.show()
-
-    def plot_x_space(self):
+    def plot_graph(self):
         plt.figure()
         nx.draw(self._x_graph, with_labels=True)
         plt.title('Ground Truth Connectivity in x-layer')
+        plt.show()
 
-    def get_x_timeseries(self, T: int = 1000):
+    def plot_connectivity(self):
+        plt.figure()
+        plt.imshow(nx.laplacian_matrix(self._x_graph).todense(),
+                   cmap="hot", interpolation="None")
+        plt.show()
+
+    def plot_coverage(self) -> None:
+        plt.figure()
+        plt.imshow([self._H_coeffs.max(axis=-1), self._Γ_coeffs.max(axis=-1)],
+                   interpolation="None")
+        plt.colorbar()
+        plt.show()
+
+    def plot_x(self):
+        x = self.H_oracle() if self.x_states is None else self.x_states
+
+        plt.figure()
+        plt.plot(x, alpha=0.2)
+        plt.title('X Timeseries')
+
+    def H_oracle(self, T: int = 1000) -> nnp.ndarray:
         covariance_matrix = nx.laplacian_matrix(self._x_graph)
 
         x_timeseries = nnp.random.multivariate_normal(
