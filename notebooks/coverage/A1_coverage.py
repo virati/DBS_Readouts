@@ -3,15 +3,6 @@
 Summary: This notebook focuses on introducing the concept of coverage as the inner product between $\mathbf{H}$ and $\mathbf{\Gamma}$
 
 """
-
-# # Defining Sensor Coverage
-# The brain is a network of regions.
-# Different subsets of regions map onto different functionally distinct outputs, or *behaviors*.
-#
-# When we measure brain regions we measure an independent (potentially overlapping, potentially identical, potentially different, etc.) set of brain regions compared to those associated with our functional input(s) of interest.
-#
-# Let's formally define the *sensor coverage* metric.
-
 # %%
 import statsmodels.api as sm
 from scipy.stats import pearsonr
@@ -21,7 +12,7 @@ import numpy as nnp
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 
-
+# %%
 B = 1
 M = 1
 regions = 10
