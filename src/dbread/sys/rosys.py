@@ -6,6 +6,7 @@ from typing_extensions import Self
 import matplotlib.pyplot as plt
 from typing import Callable
 import numpy as np
+import scipy.stats as stats
 
 
 class rosys(base_system):
@@ -72,10 +73,12 @@ class rosys(base_system):
 
     def test_readout(self, y_test=None) -> Self:
         if y_test is None:
-            x_test = x_states = self.gen_synth_states(
+            x_test = self.gen_synth_states(
                 T=1000, store=False)
             y_test = self.measure(x_test, store=False)
-        β_hat = self.Θ.predict(y_test)
-        β_true = self.behave(x_states=x_test, store=False)
+        β_hat = self.Θ.predict(y_test).squeeze()
+        β_true = self.behave(x_states=x_test, store=False).squeeze()
 
-        return np.corrcoef(β_hat.squeeze(), β_true.squeeze()), β_hat, β_true
+        correlation = stats.pearsonr(β_hat, β_true)
+
+        return correlation
