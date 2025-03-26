@@ -12,14 +12,14 @@ class rosys(base_system):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def gen_synth_states(self, T: int = 10_000, iso=False) -> nnp.ndarray:
+    def gen_synth_states(self, T: int = 10_000, store=True) -> nnp.ndarray:
         x_states = super().H_oracle(T)
 
-        if iso:
-            return x_states
-        else:
+        if store:
             self.x_states = x_states
             return self
+        else:
+            return x_states
 
     def set_H(self, H_function: Callable, H_coeffs: nnp.ndarray) -> Self:
         self._H_function = H_function
@@ -33,21 +33,37 @@ class rosys(base_system):
 
         return self
 
-    def measure(self, plot=False) -> Self:
-        self.y = self.H(self.x_states)
+    def measure(self, x_states=None, plot=False, store=True) -> Self:
+        if x_states is None:
+            x_states = self.x_states
+        y = self.H(x_states)
         if plot:
-            plt.plot(self.y)
+            plt.plot(y)
             plt.title('Measurement')
             plt.show()
-        return self
 
-    def behave(self, plot=False) -> Self:
-        self.β = self.Γ(self.x_states)
+        if store:
+            self.y = y
+            return self
+        else:
+            return y
+
+    def behave(self, x_states=None, plot=False, store=True) -> Self:
+        if x_states is None:
+            x_states = self.x_states
+
+        β = self.Γ(x_states)
+
         if plot:
-            plt.plot(self.β)
+            plt.plot(β)
             plt.title('Behavior')
             plt.show
-        return self
+
+        if store:
+            self.β = β
+            return self
+        else:
+            return β
 
     def train_readout(self) -> Self:
         self.Θ = LinearRegression().fit(self.y, self.β)
@@ -56,10 +72,10 @@ class rosys(base_system):
 
     def test_readout(self, y_test=None) -> Self:
         if y_test is None:
-            y_test = self.y
-        self.β_hat = self.Θ.predict(self.y)
+            x_test = x_states = self.gen_synth_states(
+                T=1000, store=False)
+            y_test = self.measure(x_test, store=False)
+        β_hat = self.Θ.predict(y_test)
+        β_true = self.behave(x_states=x_test, store=False)
 
-        transformed_y = y_test * self.Θ.coef_[0]
-        correlation_transformed = np.corrcoef()[0, 1]
-
-        return self
+        return np.corrcoef(β_hat.squeeze(), β_true.squeeze()), β_hat, β_true
