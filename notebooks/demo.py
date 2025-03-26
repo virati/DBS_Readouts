@@ -42,9 +42,10 @@ print(assessment)
 
 # %% Loop through clips
 results = []
-for clip_num in range(0, 10):
+H_coeffs = np.eye(num_probes)
+for clip_num in range(0, 100):
     putative.set_H(innerprod, clip(
-        np.eye(10), clip_num=clip_num)).measure(plot=False)
+        H_coeffs, clip_num=clip_num)).measure(plot=False)
     putative.behave(plot=False)
     assessment = putative.train_readout().test_readout()
     results.append(assessment.statistic)
