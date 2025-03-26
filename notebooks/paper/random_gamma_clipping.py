@@ -33,8 +33,8 @@ putative.plot_x()
 
 # %%
 H_vec_clipped = clip(np.eye(num_probes), clip_num=0)
-# Γ_vec = np.ones((num_nodes, 1))
-Γ_vec = 10*np.exp(-np.arange(num_nodes).reshape(-1, 1)) + 1
+Γ_vec = 10+np.random.uniform(-0.5, 0.5, size=((num_nodes, num_behaviors)))
+# Γ_vec = 10*np.exp(-np.arange(num_nodes).reshape(-1, 1)) + 1
 # Γ_vec += clip(np.random.normal(0, 1, size=(num_nodes, 1)), clip_num=0)
 
 plt.imshow(H_vec_clipped)

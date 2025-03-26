@@ -17,9 +17,11 @@ class efficacy:
         accuracy = []
         alignment = []
         H_coeffs = np.eye(num_probes)
-        for clip_num in range(0, num_probes):
-            putative.set_H(innerprod, clip(
-                H_coeffs, clip_num=clip_num)).measure(plot=False)
+        for clip_num in range(0, num_probes+1):
+            H_clipped = clip(
+                H_coeffs, clip_num=clip_num)
+            putative.set_H(innerprod, H_clipped).measure(plot=False)
+            print(f"{(H_clipped>0).sum()}")
             putative.behave(plot=False)
             assessment = putative.train_readout().test_readout()
             accuracy.append(assessment[0].statistic)

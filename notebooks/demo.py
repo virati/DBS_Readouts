@@ -11,8 +11,6 @@ from dbread.assessment.ro_assess import efficacy
 %autoreload 2
 
 # %%
-
-# %%
 num_nodes = 20
 num_probes = 20
 num_behaviors = 1
@@ -42,7 +40,7 @@ putative.behave(plot=True)
 # Do a full assessment run on the (linear) readout
 assessment = putative.train_readout().test_readout()
 print(assessment)
-# %%
+
 assessment = efficacy(putative).run()
 [plot_against_Γ(putative, assessment[label], label=label)
  for label in ['accuracy', 'alignment']]

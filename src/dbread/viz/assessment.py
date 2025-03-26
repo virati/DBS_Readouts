@@ -16,6 +16,7 @@ def plot_against_Γ(putative: rosys, to_plot: Union[ndarray, dict], label=None):
     plt.legend()
     ax2 = ax1.twinx()
     ax2.plot(putative._Γ_coeffs[::-1], 'g--', label="Gamma Coeffs")
+    ax1.set_ylim(0, 1)
     ax2.spines['right'].set_color('green')
     ax2.tick_params(axis='y', colors='green')
     plt.title(label)
