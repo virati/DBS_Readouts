@@ -4,14 +4,16 @@ import dbread.sys.rosys as rosys
 import numpy as np
 import matplotlib.pyplot as plt
 from dbread.utils.clips import clip
+from dbread.viz.assessment import plot_against_Γ
+
 %load_ext autoreload
 %autoreload 2
 
 # %%
 
 # %%
-num_nodes = 100
-num_probes = 100
+num_nodes = 20
+num_probes = 20
 num_behaviors = 1
 
 # %%
@@ -42,22 +44,16 @@ print(assessment)
 
 # %% Loop through clips
 results = []
+alignment = []
 H_coeffs = np.eye(num_probes)
-for clip_num in range(0, 100):
+for clip_num in range(0, num_probes):
     putative.set_H(innerprod, clip(
         H_coeffs, clip_num=clip_num)).measure(plot=False)
     putative.behave(plot=False)
     assessment = putative.train_readout().test_readout()
-    results.append(assessment.statistic)
+    results.append(assessment[0].statistic)
+    alignment.append(assessment[1])
 
 # %%
-fig, ax1 = plt.subplots()
-ax1.plot(results, 'r', label="Correlation")
-ax1.spines['left'].set_color('red')
-ax1.tick_params(axis='y', colors='red')
-plt.legend()
-ax2 = ax1.twinx()
-ax2.plot(putative._Γ_coeffs[::-1], 'g--', label="Gamma Coeffs")
-ax2.spines['right'].set_color('green')
-ax2.tick_params(axis='y', colors='green')
-plt.show()
+plot_against_Γ(putative, results, label="Accuracy")
+plot_against_Γ(putative, alignment, label="Alignment")

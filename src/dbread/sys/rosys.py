@@ -79,6 +79,10 @@ class rosys(base_system):
         β_hat = self.Θ.predict(y_test).squeeze()
         β_true = self.behave(x_states=x_test, store=False).squeeze()
 
+        coeff = self.Θ.coef_.squeeze()
+        gamma_coeffs = self._Γ_coeffs.squeeze()
         correlation = stats.pearsonr(β_hat, β_true)
+        model_alignment = (np.dot(coeff, gamma_coeffs) /
+                           (np.linalg.norm(gamma_coeffs)*np.linalg.norm(coeff)))
 
-        return correlation
+        return correlation, model_alignment
