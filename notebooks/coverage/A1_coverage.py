@@ -6,7 +6,7 @@ Summary: This notebook focuses on introducing the concept of coverage as the inn
 # %%
 import statsmodels.api as sm
 from scipy.stats import pearsonr
-from dbread.ro_sys import RO_SYS
+from dbread.sys.systems import rosys
 import jax.numpy as np
 import numpy as nnp
 import matplotlib.pyplot as plt
@@ -17,7 +17,7 @@ B = 1
 M = 1
 regions = 10
 
-basic_system = RO_SYS(B=B, M=M, regions=regions)
+basic_system = rosys(B=B, M=M, regions=regions)
 
 basic_system.H = nnp.zeros((basic_system.regions, basic_system.B))
 basic_system.H[4:, :] = 1

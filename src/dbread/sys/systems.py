@@ -1,7 +1,8 @@
 import numpy as nnp
-from dbread.utils.functions import statics
 import matplotlib.pyplot as plt
 import networkx as nx
+from abs import abstractmethod, ABC
+from typing import Any, Self
 
 
 class base_system:
@@ -20,6 +21,14 @@ class base_system:
 
         self._x_graph = nx.gnp_random_graph(num_nodes, 0.5)
 
+    @abstractmethod
+    def H(self, input):
+        return self._H_function(input, self._H_coeffs)
+
+    @abstractmethod
+    def Γ(self, input):
+        return self._Γ_function(input, self._Γ_coeffs)
+
     def plot_coverage(self):
         plt.figure()
         plt.imshow([self._H_coeffs, self._Γ_coeffs],
@@ -37,34 +46,3 @@ class base_system:
         x_timeseries = nnp.random.multivariate_normal(
             nnp.zeros(self.num_nodes), covariance_matrix.todense(), T)
         return x_timeseries
-
-
-class RO_SYS(base_system):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-    def coverage(self) -> float:
-        return nnp.dot(self.gamma.T, self.H) / (nnp.sum(self.gamma))
-
-    def gen_synth_states(self, T: int = 10_000) -> nnp.ndarray:
-        self.X_states = nnp.random.multivariate_normal(
-            0 * nnp.zeros(self.regions), nnp.eye(self.regions), size=(T,)
-        )
-
-        return self
-
-    def measure(self):
-        return nnp.dot(base_system.H.T, self.X_states.T).squeeze()
-
-    def behave(self):
-        return nnp.dot(base_system.gamma.T, self.X_states.T).squeeze()
-
-    def prediction_stats(self, plot=False, X=None, Y=None):
-        if plot:
-            fig = plt.figure()
-            ax = fig.add_subplot(111)
-
-            plt.scatter(X, Y)
-            pearsonr(Y, X)
-
-            model = sm.OLS(Y, X)
