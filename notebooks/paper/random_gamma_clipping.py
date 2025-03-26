@@ -1,14 +1,21 @@
 # %%
-from dbread.utils.functions import innerprod
-import dbread.sys.rosys as rosys
-import numpy as np
-import matplotlib.pyplot as plt
-from dbread.utils.clips import clip
-from dbread.viz.assessment import plot_against_Γ
-from dbread.assessment.ro_assess import efficacy
+# [markdown]
+# # Random $\Gamma$ and clipping
+# This notebook explores how random behavioral maps (Γ) and measurement clipping affect
+# our ability to (linearly) decode behaviors from neural recordings.
+# We simulate a simple neural recording system and evaluate readout performance.
 
+# %%
+from dbread.assessment.ro_assess import efficacy
+from dbread.viz.assessment import plot_against_Γ
+from dbread.utils.clips import clip
+import matplotlib.pyplot as plt
+import numpy as np
+import dbread.sys.rosys as rosys
+from dbread.utils.functions import innerprod
 %load_ext autoreload
 %autoreload 2
+# %%
 
 # %%
 
@@ -39,7 +46,6 @@ putative.set_H(innerprod, H_vec_clipped).measure(plot=True)
 putative.behave(plot=True)
 
 # %%
-# Do a full assessment run on the (linear) readout
 assessment = putative.train_readout().test_readout()
 print(assessment)
 # %%

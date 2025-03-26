@@ -71,11 +71,12 @@ class rosys(base_system):
 
         return self
 
-    def test_readout(self, y_test=None) -> Self:
-        if y_test is None:
+    def test_readout(self, x_test=None) -> Self:
+        if x_test is None:
             x_test = self.gen_synth_states(
                 T=1000, store=False)
-            y_test = self.measure(x_test, store=False)
+
+        y_test = self.measure(x_test, store=False)
         β_hat = self.Θ.predict(y_test).squeeze()
         β_true = self.behave(x_states=x_test, store=False).squeeze()
 
