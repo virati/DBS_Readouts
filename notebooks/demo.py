@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from dbread.utils.clips import clip
 from dbread.viz.assessment import plot_against_Γ
+from dbread.assessment.ro_assess import efficacy
 
 %load_ext autoreload
 %autoreload 2
@@ -41,19 +42,6 @@ putative.behave(plot=True)
 assessment = putative.train_readout().test_readout()
 print(assessment)
 # %%
-
-# %% Loop through clips
-results = []
-alignment = []
-H_coeffs = np.eye(num_probes)
-for clip_num in range(0, num_probes):
-    putative.set_H(innerprod, clip(
-        H_coeffs, clip_num=clip_num)).measure(plot=False)
-    putative.behave(plot=False)
-    assessment = putative.train_readout().test_readout()
-    results.append(assessment[0].statistic)
-    alignment.append(assessment[1])
-
-# %%
-plot_against_Γ(putative, results, label="Accuracy")
-plot_against_Γ(putative, alignment, label="Alignment")
+assessment = efficacy(putative).run()
+[plot_against_Γ(putative, assessment[label], label=label)
+ for label in ['accuracy', 'alignment']]
