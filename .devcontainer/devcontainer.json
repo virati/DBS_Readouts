@@ -20,6 +20,7 @@
 		"vscode": {
 			// Set *default* container specific settings.json values on container create.
 			"settings": {
+				"editor.formatOnSave": true,
 				"python.defaultInterpreterPath": "/usr/local/bin/python",
 				"python.linting.enabled": true,
 				"python.linting.pylintEnabled": true,
@@ -44,7 +45,8 @@
 				"quarto.quarto",
 				"James-Yu.latex-workshop",
 				"ms-toolsai.jupyter-renderers",
-				"mathematic.vscode-latex"
+				"mathematic.vscode-latex",
+				"charliermarsh.ruff"
 			]
 		}
 	},

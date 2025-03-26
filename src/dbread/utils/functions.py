@@ -1,28 +1,26 @@
-def unity(x):
+import numpy as np
+from typing import Any
+
+
+def unity(x: Any) -> Any:
     """
     Basic unity function
     """
     return x
 
 
-def statics(x):
-    """
-    Static dynamics
-    """
-    return 0
+def zero(x: Any) -> Any:
+    return 0 * x
 
 
-def stables(
-    x,
-    c=0,
-):
+def stables(x: Any, c=0,) -> Any:
     """
     Stable dynamics in each dimensions at \vec{c} Γ
     """
     return -(x - c)
 
 
-def consensus(x):
+def all_to_all(x: np.ndarray) -> np.ndarray:
     """
     Basic all-to-all consensus dynamics
     """
